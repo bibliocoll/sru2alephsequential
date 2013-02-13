@@ -1,0 +1,41 @@
+body { 
+font-family: Sans-Serif;
+padding: 50px;
+
+#formularbeschreibung { 
+padding-top: 20px;
+padding-bottom:20px;
+ }
+
+.gbvmatch { 
+padding-left:50px;
+padding-bottom: 15px;
+
+ }
+
+.bad { 
+background-color:#ff6c6c;
+ }
+
+.good { 
+/*padding-left: 100px;*/
+color:green;
+ }
+
+.hidden { 
+display:none;
+ }
+
+.visible { 
+display:inline;
+ }
+
+.isbn-hinweis { 
+color:#808080;
+font-style:italic;
+ }
+
+.gefunden { 
+background-color: lightyellow;
+padding:10px;
+ }
