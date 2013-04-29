@@ -141,10 +141,28 @@ foreach ( $pica as $item ) {
 								}
 							}
 						}
-						if (!empty($url['subject_z'])) { echo '<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_z: <strong>' .$url['subject_z'].'</strong>';
-							$alephseq .= "\$\$z".$url['subject_z'];}
-						if (!empty($url['subject_v'])) { echo '<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_v: <strong>' .$url['subject_v'].'</strong>';
-							$alephseq .= "\$\$v".$url['subject_v'];}
+						if (!empty($url['subject_z'])) { 
+							if (!is_array($url['subject_z'])) {
+								echo '<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_z: <strong>' .$url['subject_z'].'</strong>';
+								$alephseq .= "\$\$z".$url['subject_z'];
+							} else { // if array, falls mehrere UF z
+								foreach ($url['subject_z'] as $z) {
+									echo '<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_z: <strong>' .$z.'</strong>';
+									$alephseq .= "\$\$z".$z;
+								}
+							}
+						}
+						if (!empty($url['subject_v'])) { 
+							if (!is_array($url['subject_v'])) {
+								echo '<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_v: <strong>' .$url['subject_v'].'</strong>';
+								$alephseq .= "\$\$v".$url['subject_v'];
+							} else { // if array, falls mehrere UF v
+								foreach ($url['subject_v'] as $v) {
+									echo '<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_v: <strong>' .$v.'</strong>';
+									$alephseq .= "\$\$v".$v;
+								}
+							}
+						}
 						$alephseq .= "\r\n";
 					} else { // if array: falls mehrere Unterfelder a in einem 740er-Feld
 						echo 'MAB 740s_a: <strong>'.$url['subject_a'][0].'</strong>'; // erstes UF ausgeben (ist immer 'a')
