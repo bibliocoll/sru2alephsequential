@@ -1,5 +1,4 @@
 <?php
-// neu 2011-07-11 zim
 // Ajax-Abfrage
 
 function myget ($query,$xpath) {
@@ -20,8 +19,8 @@ function myget ($query,$xpath) {
 //$x = "http://gso.gbv.de/sru/DB=2.1/?version=1.1&operation=searchRetrieve&query=pica.isb%3D%22".trim($_GET['isbn'])."&recordSchema=pica";
 //$x = "http://sru.gbv.de/gvk?version=1.1&operation=searchRetrieve&query=pica.isb%3D0006383866&maximumRecords=10&recordSchema=picaxml";
 // Bsp. f. Aufsaetze/Preprints: http://sru.gbv.de/gvk?version=1.1&operation=searchRetrieve&query=pica.per=gizatulina%20and%20pica.tit%3DInformational%20smallness%20and%20the%20scope%20for%20limiting%20information%20rents&maximumRecords=10&recordSchema=picaxml
-$xtitel = urlencode($_GET['titel']);
-$xautor = urlencode($_GET['autor']);
+$xtitel = urlencode($_GET['title']);
+$xautor = urlencode($_GET['author']);
 
 if ($_GET['autor'] == TRUE) {
 	//	$x = "http://sru.gbv.de/gvk?version=1.1&operation=searchRetrieve&query=pica.per=gizatulina%20and%20pica.tit%3DInformational%20smallness%20and%20the%20scope%20for%20limiting%20information%20rents&maximumRecords=10&recordSchema=picaxml";

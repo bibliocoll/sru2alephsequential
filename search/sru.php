@@ -1,5 +1,5 @@
 <?php
-// Version/Time-stamp: "2012-03-12 17:01:04 zimmel"
+// Version/Time-stamp: "2014-01-14 18:10:04 zimmel"
 // Daniel Zimmel
 // Dateiname: make-csv.php (basiert auf make-bibtex.php)
 //
@@ -139,10 +139,6 @@ closedir($dh);
 </form>
 </p>
 <?php
-
-
-
-
 if (!empty($_GET['set_num'])) {
 // Ein paar Security-Checks (Set_No. ist nicht verbunden mit library, d.h. man koennte auch Sets von anderen Bibs abgreifen, was zu Sys-No.-Inkonsistenzen fuehrt!)
 if ($alles[0]['cat_check'] != 'RDG') { // steht im ersten Satz ein RDG? (soll als Check hinreichend ausreichen)
@@ -160,14 +156,11 @@ echo '<span style="background-color:#00ff40;font-weight:bold;padding:5px;margin-
 
 </div>
 
-
 <div id="boxrechts">
 
-															<h1>2. Daten abfragen (Katalog unten ausw&auml;hlen):</h1>
+<h1>2. Daten abfragen (Katalog unten ausw&auml;hlen):</h1>
 
-
-<form action="http://intern.coll.mpg.de/biblio/sru/search/sru-ajax-query.php" method="post">
-<!--<form action="http://addaleph.vweb10-test.gwdg.de/gbv/sru-ajax-test.php" method="post">-->
+<form action="sru-ajax-query.php" method="post">
 <textarea name="nummern" cols="38" rows="30">
 <?php
 if (!empty($_GET['set_num'])) {
@@ -176,7 +169,6 @@ foreach ($alles as $item){
 /* if (!empty($item['barcode'])) { */
 /* 		echo $item['barcode']."|"; */
 /* 	} */
-
 
 
 /////////////////////////////////////////////////////////
@@ -235,11 +227,13 @@ echo '<input type="hidden" value="'.$_GET['set_num'].'" name="set_num"></input>'
 <br/>
 	<input type="radio" value="gbv-zss-swd" name="srubase">GBV: SWD-Schlagworte <strong>(Zeitschriften/Eingabe erfordert ISSN!)</strong></input>
 <br/>
-<input type="radio" value="loc" name="srubase">Library of Congress: Subject Headings</input>
-<br/>
 	<input type="radio" value="gbv-sprachencode" name="srubase" checked="checked">GBV: Sprachencode (037b)</input>
 <br/>
-<!--<input type="checkbox" value="nohtml" name="output">keine HTML-Ausgabe</input>-->
+<input type="radio" value="loc" name="srubase">Library of Congress: Subject Headings</input>
+<br/>
+	<input type="radio" value="copac-desc" name="srubase">COPAC: Descriptions (750er, via HTML)</input>
+<br/>
+<input type="checkbox" value="nohtml" name="output">keine HTML-Ausgabe</input>
 <br/><br/><input type="submit" value="Daten abfragen!" /></input>
 </form>
 </div>

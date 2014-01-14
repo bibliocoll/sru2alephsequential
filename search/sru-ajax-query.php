@@ -1,9 +1,14 @@
 <?php
-// Version/Time-stamp: "2012-03-12 17:54:35 zimmel"
+// Version/Time-stamp: "2014-01-14 18:03:12 zimmel"
 // Daniel Zimmel, Martin Pollet
 // Dateiname: sru-ajax-query.php 
-// Abfragen via SRU-Schnittstelle, asynchron via AJAX/Prototype
-
+// Abfragen via SRU-Schnittstelle, asynchron via AJAX/jQuery
+// ! Update 2014: neu implementiert in jQuery (statt Prototype)
+header("Expires: Tue, 03 Jul 2001 06:00:00 GMT");
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
 $oldSetting = libxml_use_internal_errors( true ); 
 libxml_clear_errors(); 
 
@@ -47,6 +52,14 @@ $value=$forminput;
 	$nummern = explode ('##',$value);
 }
 
+echo "<html>\n<head>\n";
+echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />'."\n";
+echo '<script type="text/javascript" src="jquery-2.0.3.min.js"></script>'."\n";
+echo '<link rel="stylesheet" media="all" type="text/css" href="sru.css" />'."\n";
+echo '</head>'."\n";
+
+echo '<body>'."\n";
+
 if ($srubase == "gbv-subj") {
 echo "<h1>Abfrage GBV: Subject Headings</h1> ";
 } else if ($srubase == "gbv-toc") {
@@ -55,150 +68,23 @@ echo "<h1>Abfrage GBV: Table of Contents</h1> ";
 echo "<h1>Abfrage LoC: Subject Headings</h1> ";
 }
 echo '<h2 style="background-color: yellow; padding: 10px;"><a href="sru.php">neue Suche</a></h2>';
-//echo "<h2>Anmerkung: bei mehreren Titels&auml;tzen wird nur der erste ausgewertet</h2>";
-//print_r($nummern);
-//echo "<br/><br/>";
-
-echo "<html>\n<head>\n";
-echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />'."\n";
-echo '<script type="text/javascript" src="prototype.js?"></script>'."\n";
-echo '<link rel="stylesheet" media="all" type="text/css" href="sru.css" />'."\n";
-echo '</head>'."\n";
-
-
-if ($srubase == "gbv-subj") {
-?>
-<!-- Ajax-Abfrage Aleph-X, s.u. script + notation-span -->
-<body onload="for (var x = 1; x <= max; x++){ 
-new Ajax.Updater(
-{success: 'ResponseContainer-'+x,
- failure: 'Failure'},
- 'sru-gbv-subj.inc.php',
- {method:'get', parameters: { isbn: isbns[x], sysno: sysnos[x], set_num: set_num}});
-} ">
-<?php
-		} elseif ($srubase == "gbv-toc") {
-?>
-<!-- Ajax-Abfrage Aleph-X, s.u. script + notation-span -->
-<body onload="for (var x = 1; x <= max; x++){ 
-new Ajax.Updater(
-{success: 'ResponseContainer-'+x,
- failure: 'Failure'},
- 'sru-gbv-toc.inc.php',
- {method:'get', parameters: { isbn: isbns[x], sysno: sysnos[x], set_num: set_num}});
-} ">
-<?php
-		} elseif ($srubase == "gbv-stw" && $csvinput != "aufsatz") {
-?>
-<!-- Ajax-Abfrage Aleph-X, s.u. script + notation-span -->
-<body onload="for (var x = 1; x <= max; x++){ 
-new Ajax.Updater(
-{success: 'ResponseContainer-'+x,
- failure: 'Failure'},
- 'sru-gbv-stw.inc.php',
- {method:'get', parameters: { isbn: isbns[x], sysno: sysnos[x], set_num: set_num}});
-} ">
-<?php
-		} elseif ($srubase == "gbv-stw" && $csvinput == "aufsatz") {
-?>
-<!-- Ajax-Abfrage Aleph-X, s.u. script + notation-span -->
-<body onload="for (var x = 1; x <= max; x++){ 
-new Ajax.Updater(
-{success: 'ResponseContainer-'+x,
- failure: 'Failure'},
- 'sru-gbv-stw.inc.php',
- {method:'get', parameters: { autor: autor[x], titel: titel[x], sysno: sysnos[x], set_num: set_num}});
-} ">
-<script>
-autor = new Array();
-titel = new Array();
-</script>
-<?php
-		} elseif ($srubase == "gbv-swd") {
-?>
-<!-- Ajax-Abfrage Aleph-X, s.u. script + notation-span -->
-<body onload="for (var x = 1; x <= max; x++){ 
-new Ajax.Updater(
-{success: 'ResponseContainer-'+x,
- failure: 'Failure'},
- 'sru-gbv-swd.inc.php',
- {method:'get', parameters: { isbn: isbns[x], sysno: sysnos[x], set_num: set_num}});
-} ">
-<?php
-		} elseif ($srubase == "gbv-zss-swd") {
-?>
-<!-- Ajax-Abfrage Aleph-X, s.u. script + notation-span -->
-<body onload="for (var x = 1; x <= max; x++){ 
-new Ajax.Updater(
-{success: 'ResponseContainer-'+x,
- failure: 'Failure'},
- 'sru-gbv-zss-swd.inc.php',
- {method:'get', parameters: { isbn: isbns[x], sysno: sysnos[x], set_num: set_num}});
-} ">
-<?php
-		} elseif ($srubase == "gbv-sprachencode") {
-?>
-<!-- Ajax-Abfrage Aleph-X, s.u. script + notation-span -->
-<body onload="for (var x = 1; x <= max; x++){ 
-new Ajax.Updater(
-{success: 'ResponseContainer-'+x,
- failure: 'Failure'},
- 'sru-gbv-sprachencode.inc.php',
- {method:'get', parameters: { isbn: isbns[x], sysno: sysnos[x], set_num: set_num}});
-} ">
-<?php
-		} elseif ($srubase == "loc") {
-?>
-<!-- Ajax-Abfrage Aleph-X, s.u. script + notation-span -->
-<body onload="for (var x = 1; x <= max; x++){ 
-new Ajax.Updater(
-{success: 'ResponseContainer-'+x,
- failure: 'Failure'},
- 'sru-loc.inc.php',
- {method:'get', parameters: { isbn: isbns[x], sysno: sysnos[x], set_num: set_num}});
-} ">
-<?php
-					}
-
-
-
-?>
-
-<script>
-isbns = new Array();
-sysnos = new Array();
-var set_num;
-var max;
-
-// globales Ajax-Element (Testen)
-//Ajax.Responders.register({
-		//  onCreate: function(){
-    //alert('a request has been initialized!');
-		//}, 
-//onComplete: function(){
-//			alert('a request completed');
-//  }
-//});
-
-</script>
-<!-- Ende Ajax -->
-
-<?php
 
 $count = 1;
 
 foreach ($nummern as $key => $item){
 
-	echo "<div>";
+	echo '<div class="myrow">';
 
 		if ($csvinput == "isbn") {
-			echo "ISBN/ISSN = <strong>".$key."</strong>: ".$item;
+			echo 'ISBN/ISSN = <strong>'.$key.'</strong>: '.$item;
 		} else if ($csvinput == "barcode-isbn") {
 			echo '<strong>Barcode: '.$key.'</strong>: <span class="visible">'.$item;
 		} else if ($csvinput == "sysno-isbn") {
 			if ($output != "nohtml") {
-				echo '<strong>Aleph-SYS: '.$key.'</strong>: <span class="visible">'.$item;
-			}
+					echo '<strong>Aleph-SYS: <span class="mysysno">'.trim($key).'</span></strong>: <span class="visible"><span class="myisbn">'.$item.'</span>';
+			} else {
+					echo '<div style="display:none"><strong>Aleph-SYS: <span class="mysysno">'.trim($key).'</span></strong>: <span class="visible"><span class="myisbn">'.$item.'</span></div>';
+			} 
 			$sysno=trim($key);
 		} else { echo "aufsatz";}
 
@@ -210,39 +96,17 @@ foreach ($nummern as $key => $item){
 				$isbn=$item_trim;
 	
 			} else { $isbn=""; }
-		} else {
+		} else { // if Aufsatzdaten:
 
 			$aufsatzdaten = explode ('#',$item);//print_r($aufsatzdaten);
 			$sysno = $aufsatzdaten[0];
-			$autor = preg_replace("/,\s.+/","",$aufsatzdaten[1]);
-			$titel = preg_replace("/[\"\'\?:;&\$]/","",$aufsatzdaten[2]);
+			$author = preg_replace("/,\s.+/","",$aufsatzdaten[1]);
+			$title = preg_replace("/[\"\'\?:;&\$]/","",$aufsatzdaten[2]);
+
+			// setup for Ajax only, invisible:
+			echo '<div style="display:none"><span class="myauthor">'.$author.'</span><span class="mytitle">'.$title.'</span></div>';
 		}
 
-	if ($csvinput != "aufsatz") {
-	?>
-<!-- Ajax-Abfrage Aleph-X, s.o. -->
-<script> 
-    isbns[<?php print $count; ?>]="<?php print $isbn; ?>";
-		sysnos[<?php print $count; ?>]="<?php print $sysno; ?>";
-		//set_num="<?php print $set_num; ?>";
-		max=<?php print $count; ?>;
-		//max=2;
-</script>
-<?php
-		} else if ($csvinput == "aufsatz") {
-	?>
-<!-- Ajax-Abfrage Aleph-X, s.o. -->
-<script> 
-
-    autor[<?php print $count; ?>]="<?php print $autor; ?>";
-    titel[<?php print $count; ?>]="<?php print $titel; ?>";
-		sysnos[<?php print $count; ?>]="<?php print $sysno; ?>";
-		//set_num="<?php print $set_num; ?>";
-		max=<?php print $count; ?>;
-		//max=2;
-</script>
-<?php
-	}
 		if ($output != "nohtml") {
 ?>
 <span id="ResponseContainer-<?php print $count; ?>" class="Ajax"><img src="ajax-loader-3.gif"/></span>
@@ -254,9 +118,49 @@ foreach ($nummern as $key => $item){
 		$count++;
 } // end foreach
 //echo $set_num;
-	if ($output == "nohtml") { echo "Datei wird geschrieben...";}
+	if ($output == "nohtml") { 
+echo '<span id="ajaxHinweis">Datei wird geschrieben...</span>';
+}
 
 echo '<h2 style="background-color: yellow; padding: 10px;"><a href="sru.php">neue Suche</a></h2>';
+
+?>
+
+<!-- Ajax-Abfrage Aleph-X -->
+<script type="text/javascript">
+
+		$(document).ready(function() {
+
+				// not very secure, but we know what we do (internal only!)
+				queryURL = 'sru-<?php print $srubase;?>.inc.php';
+						$(".myrow").each(function() { 
+										var myisbn = $(this).find(".myisbn:first").text(); 
+										var mysysno = $(this).find(".myisbn:first").text();
+										var mysetnum = $(this).find(".myisbn:first").text();
+										// Aufsatzdaten only, else leave out (thanks jQuery!)
+										var myauthor = $(this).find(".myauthor:first").text();
+										var mytitle = $(this).find(".mytitle:first").text();
+										var currentPos = $(this);
+										$.ajax({
+											url: queryURL,
+											type: "get",
+										  dataType: "html",
+										  data: {"isbn" : myisbn, "sysno": mysysno, "author": myauthor, "title": mytitle, "set_num": "dummy"},
+										  success: function(returnData) {
+													$(currentPos).find(".Ajax").append(returnData);
+													$(currentPos).find(".Ajax img").remove();
+												}, 
+										  error: function(e){ alert(e);
+												}
+											});
+							});
+			});
+		
+$(document).ajaxStop(function() {$('#ajaxHinweis').text("OK, alles erledigt");$('#ajaxHinweis').attr("class", "ajaxStop");});
+				
+</script>
+
+<?php
 
 echo '</body>'."\n".'</html>';
  

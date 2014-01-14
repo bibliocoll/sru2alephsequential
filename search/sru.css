@@ -39,3 +39,13 @@ font-style:italic;
 background-color: lightyellow;
 padding:10px;
  }
+
+#ajaxHinweis { 
+background-color: red;
+color:white;
+ }
+
+.ajaxStop { 
+background-color: lightgreen;
+color: black;
+ }

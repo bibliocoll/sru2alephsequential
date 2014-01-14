@@ -105,7 +105,7 @@ foreach ( $pica as $item ) {
 		echo '<em>'.$item['titel'].'</em> ('.$item['year'].') ';
 		echo '<br/>';
 
-		$alephseq .= $_GET['sysno']." 078   L \$\$aGBV-SH\r\n"; // Abrufzeichen
+
 		// ISBN (bei Import mit merge-Routine verwerfen, nur zur Nachnutzung interessant)
 		// 1. einfache ISBN in einem Datensatz
 		// AUSKOMMENTIERT (ISBN)
@@ -127,9 +127,14 @@ foreach ( $pica as $item ) {
 					global $alephseq;	
 					echo '<div class="gefunden">';
 					if (!is_array($url['subject_a'])) {
-						echo 'MAB 740s_a: <strong>'.$url['subject_a'].'</strong>';
-						//$alephseq .= "000029109 740    L \$\$a".$url['subject_a'];
-						$alephseq .= $_GET['sysno']." 740s  L \$\$a".$url['subject_a'];
+						if (!preg_match("/^Electronic books$/", $url['subject_a'])) {
+							echo 'MAB 740s_a: <strong>'.$url['subject_a'].'</strong>';
+							//$alephseq .= "000029109 740    L \$\$a".$url['subject_a'];
+							$alephseq .= $_GET['sysno']." 078   L \$\$aGBV-SH\r\n"; // Abrufzeichen
+							$alephseq .= $_GET['sysno']." 740s  L \$\$a".$url['subject_a'];
+						} else {
+							echo 'Schlagwort ist <strong>Electronic books</strong>, verworfen!';
+						}
 						if (!empty($url['subject_x'])) { 
 							if (!is_array($url['subject_x'])) {
 								echo '<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_x: <strong>' .$url['subject_x'].'</strong>';
@@ -193,8 +198,8 @@ foreach ( $pica as $item ) {
 
 }
 
-// in Datei mit Set-Num. schreiben:
-$file = "data/gbv/subject/set-num-".$_GET['set_num'].".txt";
+// in Datei schreiben:
+$file = "data/gbv/subject/subject-headings.txt";
 // in Datei mit fortlaufend schreiben:
 //$file = "data/gvk-subjects-kumulierend.txt";
 $fp = fopen($file, "a") or die("Couldn't open $file for writing!");

@@ -68,7 +68,7 @@ $url_array =array();
 
 }
 							
-print_r($url_array);
+//print_r($url_array);
 //print_r($pica)."<BR>";	
 //echo $pica['url']['Inhaltsverzeichnis'];			
 
@@ -95,15 +95,20 @@ foreach ( $pica as $item ) {
 					echo '<div class="gefunden">';
 					
 						// schlechte URL, gute URL:
-						if (preg_match("/bowker/i", $url['Inhaltsverzeichnis']) || preg_match("/dandelon/i", $url['Inhaltsverzeichnis'])) { 
+						if (preg_match("/bowker/i", $url['Inhaltsverzeichnis']) || preg_match("/dandelon/i", $url['Inhaltsverzeichnis']) || preg_match("/ohiolink/i", $url['Inhaltsverzeichnis']) || preg_match("/bvb/i", $url['Inhaltsverzeichnis'])) { 
 							$urlmatch = "bad"; 
-						} else { $urlmatch = "good"; }
+              $badtext = "Nicht erlaubte URL, wurde nicht in Datei geschrieben!";
+						} else { 
+              $urlmatch = "good"; 
+              $badtext = "OK";
 							$alephseq .= $_GET['sysno']." 078   L \$\$aGBV-ToC\r\n"; // Abrufzeichen	
 							$alephseq .= $_GET['sysno']." 655e  L \$\$3Inhaltsverzeichnis\$\$u".$url['Inhaltsverzeichnis']."\r\n";
+            }
 						
 						echo ' <span class="'.$urlmatch.'">';
 				    echo '  [<a href="'.$url['Inhaltsverzeichnis'].'">'.$url['Inhaltsverzeichnis'].'</a>] ';
 						echo ' </span>';
+            echo '<br/><strong><em><span class="badtext">'.$badtext.'</span></em></strong>';
 
 					}
 				}
