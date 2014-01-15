@@ -1,5 +1,5 @@
 <?php
-// Version/Time-stamp: "2014-01-14 18:03:12 zimmel"
+// Version/Time-stamp: "2014-01-15 17:18:14 zimmel"
 // Daniel Zimmel, Martin Pollet
 // Dateiname: sru-ajax-query.php 
 // Abfragen via SRU-Schnittstelle, asynchron via AJAX/jQuery
@@ -135,8 +135,8 @@ echo '<h2 style="background-color: yellow; padding: 10px;"><a href="sru.php">neu
 				queryURL = 'sru-<?php print $srubase;?>.inc.php';
 						$(".myrow").each(function() { 
 										var myisbn = $(this).find(".myisbn:first").text(); 
-										var mysysno = $(this).find(".myisbn:first").text();
-										var mysetnum = $(this).find(".myisbn:first").text();
+										var mysysno = $(this).find(".mysysno:first").text();
+										var mysetnum = $(this).find(".mysetnum:first").text();
 										// Aufsatzdaten only, else leave out (thanks jQuery!)
 										var myauthor = $(this).find(".myauthor:first").text();
 										var mytitle = $(this).find(".mytitle:first").text();
