@@ -70,15 +70,16 @@ $stw_array =array();
 
 		$pica045Da = myget("m:subfield[@code='a']",$xpath);
 		$pica045D0 = myget("m:subfield[@code='0']",$xpath);
+
+		if (!empty($pica045D0) && !empty($pica045Da)) {
 		// falls ID gefunden, dann ein Bindestrich nach 5 Zeichen f. korrekte Linked-Data-Verlinkung, z.B.:
 		// http://zbw.eu/stw/versions/latest/descriptor/19734-2/about
 		/* Update 2012-06: nicht mehr notwendig, Daten kommen jetzt korrekt mit Bindestrich */
-/* 		if (!empty($pica045D0)) { */
-/* 			$pica045D0 = substr($pica045D0,0,5)."-".substr($pica045D0,5); */
-/* 		} */
+			/* 			$pica045D0 = substr($pica045D0,0,5)."-".substr($pica045D0,5); */
+		
 		$stw_array[] = array("pica045Da" => $pica045Da, // STW-Schlagwort
 												 "pica045D0" => $pica045D0); // STW-ID
-		
+		}	
 	}
 	}  else {$stw_array = ""; }	
 
